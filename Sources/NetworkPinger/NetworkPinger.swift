@@ -5,8 +5,14 @@ import SwiftyPing
 
 
 @available(iOS 15.0, *)
-public class NetworkPingService {
+public class NetworkPinger {
 	private var cancellables = Set<AnyCancellable>()
+
+	private let config: NetworkPingerConfig
+
+	public init(config: NetworkPingerConfig) {
+		self.config = config
+	}
 
 	// Using AnyPublisher to abstract details and allow usage in both Swift and Objective-C.
 	public func ping(hosts: [String], count: Int) -> AnyPublisher<(String, Double?), Error> {
@@ -25,7 +31,7 @@ public class NetworkPingService {
 	private func ping(host: String, count: Int) -> AnyPublisher<(String, Double?), Error> {
 			let subject = PassthroughSubject<(String, Double?), Error>()
 
-		guard let pinger = try? SwiftyPing(host: host, configuration: PingConfiguration(interval: 0.5, with: TimeInterval(count)), queue: DispatchQueue.global()) else {
+		guard let pinger = try? SwiftyPing(host: host, configuration: PingConfiguration(interval: config.interval, with: config.timeout), queue: DispatchQueue.global()) else {
 				subject.send(completion: .failure(NetworkPingError.initializationFailed(host)))
 				return subject.eraseToAnyPublisher()
 			}
@@ -59,6 +65,17 @@ public enum NetworkPingError: Error, CustomStringConvertible {
 		case .unknownHost(let host):
 			return "Unknown host \(host)."
 		}
+	}
+}
+
+
+public struct NetworkPingerConfig {
+	let interval: TimeInterval
+	let timeout: TimeInterval
+
+	public init(interval: TimeInterval = 0.5, timeout: TimeInterval = 5) {
+		self.interval = interval
+		self.timeout = timeout
 	}
 }
 
