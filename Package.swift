@@ -11,11 +11,13 @@ let package = Package(
             name: "NetworkPinger",
             targets: ["NetworkPinger"]),
     ],
+	dependencies:[.package(url:"https://github.com/samiyr/SwiftyPing.git", branch: "master")],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "NetworkPinger"),
+            name: "NetworkPinger",
+			dependencies: ["SwiftyPing"]),
         .testTarget(
             name: "NetworkPingerTests",
             dependencies: ["NetworkPinger"]),
