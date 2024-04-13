@@ -36,9 +36,7 @@ extension NetworkPinger: PingProvider {
             pinger.targetCount = count
             pinger.observer = { response in
                 subject.send((host, response.duration))
-                if response.sequenceNumber == count {
-                    subject.send(completion: .finished)
-                }
+				subject.send(completion: .finished)
             }
             try pinger.startPinging()
             return subject
