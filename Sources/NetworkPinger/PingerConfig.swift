@@ -11,7 +11,7 @@ public struct PingerConfig {
     let interval: TimeInterval
     let timeout: TimeInterval
 
-    public init(interval: TimeInterval = 0.5, timeout: TimeInterval = 5) {
+    public init(interval: TimeInterval, timeout: TimeInterval) {
         self.interval = interval
         self.timeout = timeout
     }

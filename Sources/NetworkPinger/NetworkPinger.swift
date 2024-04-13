@@ -7,10 +7,14 @@ import SwiftyPing
 public class NetworkPinger {
     private var cancellables = Set<AnyCancellable>()
 
-    private let config: PingerConfig
-    /// - Parameter configuration: A configuration object which can be used to customize pinging behavior.
-    public init(config: PingerConfig) {
-        self.config = config
+    private var interval: TimeInterval
+    private var timeout: TimeInterval
+
+    /// - Parameter interval: The time between consecutive pings in seconds. Defaults to 1.
+    /// - Parameter timeout: Timeout interval in seconds. Defaults to 5.
+    public init(interval: TimeInterval = 1, timeout: TimeInterval = 5) {
+        self.interval = interval
+        self.timeout = timeout
     }
 
     public func ping(hosts: [String], count: Int) -> AnyPublisher<(String, Double?), Error> {
@@ -32,11 +36,12 @@ extension NetworkPinger: PingProvider {
     public func startPinging(host: String, count: Int) -> AnyPublisher<(String, Double?), Error> {
         let subject = PassthroughSubject<(String, Double?), Error>()
         do {
-            let pinger = try SwiftyPing(host: host, configuration: PingConfiguration(interval: config.interval, with: config.timeout), queue: DispatchQueue.global())
+
+            let pinger = try SwiftyPing(host: host, configuration: PingConfiguration(interval: interval, with: timeout), queue: DispatchQueue.global())
             pinger.targetCount = count
             pinger.observer = { response in
                 subject.send((host, response.duration))
-				subject.send(completion: .finished)
+                subject.send(completion: .finished)
             }
             try pinger.startPinging()
             return subject
