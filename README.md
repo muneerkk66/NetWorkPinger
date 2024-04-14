@@ -42,7 +42,7 @@ targets: [
 
 ## Basic Usage
 
-This example demonstrates using the NetworkPinger class to concurrently ping multiple hosts—"www.google.com" and "www.yahoo.com".
+This example demonstrates using the NetworkPinger class to concurrently ping multiple hosts ,"www.google.com" and "www.yahoo.com".
 
 ```swift
 let pinger = NetworkPinger()
