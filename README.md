@@ -44,15 +44,14 @@ targets: [
 
 This example demonstrates using the NetworkPinger class to concurrently ping multiple hosts—"www.google.com" and "www.yahoo.com".
 
-### Concurrent Execution: Performs ping operations in parallel for efficiency.
-
 ```swift
 let pinger = NetworkPinger()
+let count = 5
 let hosts = ["www.google.com", "www.yahoo.com"]
 
 var cancellables = Set<AnyCancellable>()
 
-pinger.ping(hosts: hosts, count: 5)
+pinger.ping(hosts: hosts, count: count)
     .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
@@ -71,6 +70,8 @@ ping(hosts: count:)
 ```
 Count = Number of concurrent request
 
+#### Concurrent Execution: Performs ping operations in parallel for efficiency.
+
 ## Example Apps
 
 an example app using NetworkPinger can be found on [GitHub](https://github.com/muneerkk66/PingMaster).
@@ -86,4 +87,5 @@ The NetworkPinger features of SwiftyPing are inspired by:
 
 ## License
 
-MIT license. See the [LICENSE file](LICENSE) for details.
+MIT license. See the [LICENSE file](https://github.com/muneerkk66/NetWorkPinger/blob/master/LICENSE.md) for details.
+
