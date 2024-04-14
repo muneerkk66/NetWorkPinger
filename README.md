@@ -42,10 +42,9 @@ targets: [
 
 ## Basic Usage
 
-This example demonstrates using the NetworkPinger class to concurrently ping multiple hosts—"www.google.com" and "www.yahoo.com". The ping(hosts: count:) method handles requests in parallel, enhancing efficiency.
-Concurrent Execution: Performs ping operations in parallel for efficiency.
+This example demonstrates using the NetworkPinger class to concurrently ping multiple hosts—"www.google.com" and "www.yahoo.com".
 
-count: Number of concurrent request
+### Concurrent Execution: Performs ping operations in parallel for efficiency.
 
 ```swift
 let pinger = NetworkPinger()
@@ -67,8 +66,10 @@ pinger.ping(hosts: hosts, count: 5)
     .store(in: &cancellables)
 ```
 
-
-
+```swift
+ping(hosts: count:) 
+```
+Count = Number of concurrent request
 
 ## Example Apps
 
